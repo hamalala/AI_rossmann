@@ -16,7 +16,23 @@ model, encoder, cat_cols = load_model()
 features = ['Store', 'DayOfWeek', 'Promo', 'SchoolHoliday', 'StateHoliday',
             'Month', 'Day', 'StoreType', 'Assortment', 'CompetitionDistance', 'Open', 'Customers']
 
-st.title('🏪 Forecast Rossmann Store Sales')
+# Default Values
+default_values = {
+    'Store': 1,
+    'DayOfWeek': 2,
+    'Promo': 1,
+    'SchoolHoliday': 0,
+    'StateHoliday': '0',  # บังคับเป็น str เพราะจะส่งเข้า encoder
+    'Month': 5,
+    'Day': 10,
+    'StoreType': 'c',
+    'Assortment': 'a',
+    'CompetitionDistance': 1200,
+    'Open': 1,
+    'Customers': 1000
+}
+
+st.title('🏪 Rossmann Sales Predictor')
 
 st.header('Input Features')
 
@@ -25,15 +41,20 @@ st.header('Input Features')
 # สร้างช่องกรอกตาม features
 user_input = {}
 
-# List ของ feature ที่เป็นตัวเลข (กรอกเป็น number_input)
+# List ของ feature ที่เป็นตัวเลข
 numeric_features = ['Store', 'DayOfWeek', 'Promo', 'SchoolHoliday', 'Month', 'Day', 'CompetitionDistance', 'Open', 'Customers']
 
-# สร้างช่อง input
 for feature in features:
     if feature in numeric_features:
-        user_input[feature] = st.number_input(f'{feature}', value=0.0)
+        user_input[feature] = st.number_input(
+            f'{feature}', 
+            value=float(default_values.get(feature, 0))
+        )
     else:
-        user_input[feature] = st.text_input(f'{feature}', value='')
+        user_input[feature] = st.text_input(
+            f'{feature}', 
+            value=default_values.get(feature, '')
+        )
 
 # ====== ทำเป็น DataFrame ======
 input_df = pd.DataFrame([user_input])
