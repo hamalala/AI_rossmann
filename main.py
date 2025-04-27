@@ -1,32 +1,49 @@
 import streamlit as st
 import pickle
 import numpy as np
+import pandas as pd
 
-# โหลดโมเดล
+# โหลด Model + Encoder
 @st.cache_resource
 def load_model():
     with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    return model
+        data = pickle.load(f)
+    return data['model'], data['encoder'], data['cat_cols']
 
-model = load_model()
+model, encoder, cat_cols = load_model()
 
-# ส่วนหัว
-st.title('🚀 Forecast Rossmann Store Sales')
+# ฟีเจอร์ที่ใช้ตอนเทรน
+features = ['Store', 'DayOfWeek', 'Promo', 'SchoolHoliday', 'StateHoliday',
+            'Month', 'Day', 'StoreType', 'Assortment', 'CompetitionDistance', 'Open', 'Customers']
 
-# Input Features
-st.header('Input your features:')
+st.title('🏪 Forecast Rossmann Store Sales')
 
-# ====== รับ input ======
-feature1 = st.number_input('Feature 1', value=0.0)
-feature2 = st.number_input('Feature 2', value=0.0)
-feature3 = st.number_input('Feature 3', value=0.0)
+st.header('Input Features')
+
+# ====== Input Fields ======
+
+# สร้างช่องกรอกตาม features
+user_input = {}
+
+# List ของ feature ที่เป็นตัวเลข (กรอกเป็น number_input)
+numeric_features = ['Store', 'DayOfWeek', 'Promo', 'SchoolHoliday', 'Month', 'Day', 'CompetitionDistance', 'Open', 'Customers']
+
+# สร้างช่อง input
+for feature in features:
+    if feature in numeric_features:
+        user_input[feature] = st.number_input(f'{feature}', value=0.0)
+    else:
+        user_input[feature] = st.text_input(f'{feature}', value='')
+
+# ====== ทำเป็น DataFrame ======
+input_df = pd.DataFrame([user_input])
+
+# แปลง categorical columns ด้วย encoder
+input_df[cat_cols] = input_df[cat_cols].astype(str)
+input_df[cat_cols] = encoder.transform(input_df[cat_cols])
 
 # ====== Predict ทันที ======
-input_data = np.array([[feature1, feature2, feature3]])
+prediction = model.predict(input_df)
 
-prediction = model.predict(input_data)
-
-# ====== แสดงผลทันที ======
-st.subheader('🔮 Prediction Result:')
+st.subheader('🔮 Predicted Sales:')
 st.success(f'{prediction[0]:,.2f}')
