@@ -22,7 +22,7 @@ default_values = {
     'DayOfWeek': 2,
     'Promo': 1,
     'SchoolHoliday': 0,
-    'StateHoliday': '0',  # บังคับเป็น str เพราะจะส่งเข้า encoder
+    'StateHoliday': '0',
     'Month': 5,
     'Day': 10,
     'StoreType': 'c',
@@ -32,7 +32,7 @@ default_values = {
     'Customers': 1000
 }
 
-st.title('🏪 Rossmann Sales Predictor')
+st.title('🏪 Forecast Rossmann Store Sales')
 
 st.header('Input Features')
 
@@ -56,15 +56,17 @@ for feature in features:
             value=default_values.get(feature, '')
         )
 
-# ====== ทำเป็น DataFrame ======
-input_df = pd.DataFrame([user_input])
+# ====== กดปุ่ม Predict ======
+if st.button('🚀 Forecast'):
+    # ทำเป็น DataFrame
+    input_df = pd.DataFrame([user_input])
 
-# แปลง categorical columns ด้วย encoder
-input_df[cat_cols] = input_df[cat_cols].astype(str)
-input_df[cat_cols] = encoder.transform(input_df[cat_cols])
+    # แปลง categorical columns ด้วย encoder
+    input_df[cat_cols] = input_df[cat_cols].astype(str)
+    input_df[cat_cols] = encoder.transform(input_df[cat_cols])
 
-# ====== Predict ทันที ======
-prediction = model.predict(input_df)
+    # Predict
+    prediction = model.predict(input_df)
 
-st.subheader('🔮 Predicted Sales:')
-st.success(f'{prediction[0]:,.2f}')
+    st.subheader('🔮 Predicted Sales:')
+    st.success(f'{prediction[0]:,.2f}')
