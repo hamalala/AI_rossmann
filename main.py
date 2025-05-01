@@ -29,14 +29,14 @@ user_input['DayOfWeek'] = selected_date.weekday() + 1
 user_input['Month'] = selected_date.month
 user_input['Day'] = selected_date.day
 
-user_input['Promo'] = st.radio('Promo', options=[1, 0], format_func=lambda x: 'มี' if x == 1 else 'ไม่มี')
-user_input['SchoolHoliday'] = st.radio('School Holiday', options=[1, 0], format_func=lambda x: 'ใช่' if x == 1 else 'ไม่ใช่')
-user_input['StateHoliday'] = st.radio('State Holiday', options=[1, 0], format_func=lambda x: 'ใช่' if x == 1 else 'ไม่ใช่')
+user_input['Promo'] = st.radio('Promo', options=[1, 0], format_func=lambda x: 'Yes' if x == 1 else 'No')
+user_input['SchoolHoliday'] = st.radio('School Holiday', options=[1, 0], format_func=lambda x: 'Yes' if x == 1 else 'No')
+user_input['StateHoliday'] = st.radio('State Holiday', options=[1, 0], format_func=lambda x: 'Yes' if x == 1 else 'No')
 user_input['StoreType'] = st.radio('Store Type', options=['a', 'b', 'c'])
 user_input['Assortment'] = st.radio('Assortment Type', options=['a', 'b', 'c'])
 
 user_input['CompetitionDistance'] = st.number_input('Competition Distance', min_value=0.0, step=100.0, value=1200.0)
-user_input['Open'] = st.radio('Store Open?', options=[1, 0], format_func=lambda x: 'ใช่' if x == 1 else 'ไม่ใช่')
+user_input['Open'] = st.radio('Store Open?', options=[1, 0], format_func=lambda x: 'Yes' if x == 1 else 'No')
 user_input['Customers'] = st.number_input('Expected Customers', min_value=0.0, step=100.0, value=1000.0)
 
 # ====== กดปุ่ม Predict ======
