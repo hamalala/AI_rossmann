@@ -31,7 +31,7 @@ user_input['Day'] = selected_date.day
 
 user_input['Promo'] = st.radio('Promo', options=[1, 0], format_func=lambda x: 'มี' if x == 1 else 'ไม่มี')
 user_input['SchoolHoliday'] = st.radio('School Holiday', options=[1, 0], format_func=lambda x: 'ใช่' if x == 1 else 'ไม่ใช่')
-user_input['StateHoliday'] = st.radio('State Holiday', options=['1', '0'], format_func=lambda x: 'ใช่' if x == '1' else 'ไม่ใช่')
+user_input['StateHoliday'] = st.radio('State Holiday', options=[1, 0], format_func=lambda x: 'ใช่' if x == 1 else 'ไม่ใช่')
 user_input['StoreType'] = st.radio('Store Type', options=['a', 'b', 'c'])
 user_input['Assortment'] = st.radio('Assortment Type', options=['a', 'b', 'c'])
 
