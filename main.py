@@ -22,8 +22,8 @@ st.header('Input Features')
 user_input = {}
 
 # ====== กรอกข้อมูล ======
-# user_input['Store'] = st.number_input('Store (ID)', min_value=1, step=1, value=1)
-user_input['Store'] = int(st.text_input('Store (ID)', value='1'))
+user_input['Store'] = st.number_input('Store (ID)', min_value=1, step=1, value=1)
+# user_input['Store'] = int(st.text_input('Store (ID)', value='1'))
 
 selected_date = st.date_input('Select Date', value=date(2025, 5, 1))
 user_input['DayOfWeek'] = selected_date.weekday() + 1
