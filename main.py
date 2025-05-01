@@ -46,9 +46,11 @@ if st.button('🚀 Forecast'):
     input_df = pd.DataFrame([user_input])
 
     try:
-        # แปลง categorical columns ให้เป็น string ก่อน encode
         input_df[cat_cols] = input_df[cat_cols].astype(str)
         input_df[cat_cols] = encoder.transform(input_df[cat_cols])
+
+        # ✨ เรียงลำดับ column ให้ตรงกับ model ที่เทรนไว้
+        input_df = input_df[model.get_booster().feature_names]
 
         prediction = model.predict(input_df)
         st.subheader('🔮 Predicted Sales:')
